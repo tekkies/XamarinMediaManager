@@ -147,7 +147,7 @@ namespace MediaManager.Platforms.Android.Media
             Player.AudioAttributes = audioAttributes;
 
             //TODO: Use this in 2.9.0
-            //Player.SetAudioAttributes(audioAttributes, true);
+            Player.SetAudioAttributes(audioAttributes, true);
 
             PlayerEventListener = new PlayerEventListener()
             {
