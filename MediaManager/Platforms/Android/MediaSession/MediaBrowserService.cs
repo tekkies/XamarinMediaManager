@@ -96,17 +96,18 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         private void MediaQueue_QueueChanged(object sender, Queue.QueueChangedEventArgs e)
         {
-            //TODO: Call PlayerNotificationManager.Invalidate(); on exoplayer 2.9.6 when metadata is updated
-
             if (PlayerNotificationManager != null)
             {
+                //TODO: Call PlayerNotificationManager.Invalidate(); on exoplayer 2.9.6 when metadata is updated
+                PlayerNotificationManager.Invalidate();
+
                 if (MediaManager.NotificationManager.ShowNavigationControls && MediaManager.MediaQueue.Count > 1)
                 {
-                    PlayerNotificationManager?.SetUseNavigationActions(true);
+                    PlayerNotificationManager.SetUseNavigationActions(true);
                 }
                 else
                 {
-                    PlayerNotificationManager?.SetUseNavigationActions(false);
+                    PlayerNotificationManager.SetUseNavigationActions(false);
                 }
             }
         }
