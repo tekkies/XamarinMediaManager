@@ -115,5 +115,10 @@ namespace MediaManager
                 }
             }
         }
+
+        public override void EnableLogging()
+        {
+            Logger = new MediaManager.Platforms.Uap.UwpLogger();
+        }
     }
 }

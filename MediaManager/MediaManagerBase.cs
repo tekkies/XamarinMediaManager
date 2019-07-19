@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Timers;
+using MediaManager.Logging;
 using MediaManager.Media;
 using MediaManager.Notifications;
 using MediaManager.Playback;
@@ -64,6 +65,7 @@ namespace MediaManager
         public abstract IMediaExtractor MediaExtractor { get; set; }
         public abstract IVolumeManager VolumeManager { get; set; }
         public abstract INotificationManager NotificationManager { get; set; }
+        public virtual ILogger Logger { get; set; }
 
         protected MediaPlayerState _state = MediaPlayerState.Stopped;
         public MediaPlayerState State
@@ -343,6 +345,11 @@ namespace MediaManager
                 //OnPropertyChanged(nameof(Position));
                 OnPositionChanged(this, new PositionChangedEventArgs(Position));
             }
+        }
+
+        public virtual void EnableLogging()
+        {
+            Logger = new Logger();
         }
 
         public virtual void Dispose()
