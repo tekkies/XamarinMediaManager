@@ -3,12 +3,9 @@ using System.Threading.Tasks;
 using MediaManager.Media;
 using MediaManager.Platforms.Uap.Player;
 using MediaManager.Platforms.Uap.Video;
-using MediaManager.Playback;
 using MediaManager.Video;
-using Windows.Media.Core;
 using Windows.Media.Playback;
-using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+using MediaManager.Logging;
 
 namespace MediaManager.Platforms.Uap.Media
 {
@@ -74,6 +71,7 @@ namespace MediaManager.Platforms.Uap.Media
             Player = new MediaPlayer();
             Player.AudioCategory = MediaPlayerAudioCategory.Media;
 
+            Player.MediaOpened += Player_MediaOpened;
             Player.MediaEnded += Player_MediaEnded;
             Player.MediaFailed += Player_MediaFailed;
             Player.PlaybackSession.BufferingProgressChanged += PlaybackSession_BufferingProgressChanged;
@@ -81,28 +79,38 @@ namespace MediaManager.Platforms.Uap.Media
             Player.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
         }
 
+        private void Player_MediaOpened(MediaPlayer sender, object args)
+        {
+            Logger?.Log(sender, args);
+        }
+
         private void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
         {
+            Logger?.Log(sender, args);
             //TODO: Maybe use this?
         }
 
         private void PlaybackSession_BufferingProgressChanged(MediaPlaybackSession sender, object args)
         {
+            Logger?.Log(sender, args);
             MediaManager.Buffered = TimeSpan.FromMilliseconds(sender.BufferingProgress);
         }
 
         private void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
+            Logger?.Log(sender, args);
             MediaManager.State = sender.PlaybackState.ToMediaPlayerState();
         }
 
         private void Player_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
         {
+            Logger?.Log(sender, args);
             MediaManager.OnMediaItemFailed(this, new MediaItemFailedEventArgs(MediaManager.MediaQueue.Current, new Exception(args.ErrorMessage), args.ErrorMessage));
         }
 
         private void Player_MediaEnded(MediaPlayer sender, object args)
         {
+            Logger?.Log(sender, args);
             MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.MediaQueue.Current));
         }
 
@@ -147,8 +155,12 @@ namespace MediaManager.Platforms.Uap.Media
             MediaManager.State = Playback.MediaPlayerState.Stopped;
         }
 
+        internal UwpLogger Logger => CrossMediaManager.Current.Logger as UwpLogger;
+
+
         public void Dispose()
         {
+            Player.MediaOpened -= Player_MediaOpened;
             Player.MediaEnded -= Player_MediaEnded;
             Player.MediaFailed -= Player_MediaFailed;
             Player.PlaybackSession.BufferingProgressChanged -= PlaybackSession_BufferingProgressChanged;

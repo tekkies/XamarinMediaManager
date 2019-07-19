@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using MediaManager.Logging;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Queue;
@@ -33,6 +34,8 @@ namespace MediaManager
         IVolumeManager VolumeManager { get; set; }
 
         IMediaQueue MediaQueue { get; set; }
+
+        ILogger Logger { get; set; }
 
         void Init();
 
@@ -75,5 +78,7 @@ namespace MediaManager
         /// <param name="directoryInfo"></param>
         /// <returns></returns>
         Task<IEnumerable<IMediaItem>> Play(DirectoryInfo directoryInfo);
+
+        void EnableLogging();
     }
 }
