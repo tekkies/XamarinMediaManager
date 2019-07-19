@@ -10,6 +10,7 @@ using MediaManager.Playback;
 using MediaManager.Queue;
 using MediaManager.Volume;
 using System.Linq;
+using MediaManager.Logging;
 
 namespace MediaManager
 {
@@ -62,6 +63,7 @@ namespace MediaManager
         public abstract IMediaExtractor MediaExtractor { get; set; }
         public abstract IVolumeManager VolumeManager { get; set; }
         public abstract INotificationManager NotificationManager { get; set; }
+        public virtual ILogger Logger { get; set; }
 
         private MediaPlayerState _state = MediaPlayerState.Stopped;
         public MediaPlayerState State
@@ -98,6 +100,11 @@ namespace MediaManager
         public abstract Task<IEnumerable<IMediaItem>> Play(IEnumerable<string> items);
         public abstract Task<IMediaItem> Play(FileInfo file);
         public abstract Task<IEnumerable<IMediaItem>> Play(DirectoryInfo directoryInfo);
+        public virtual void EnableLogging()
+        {
+            Logger = new Logger();
+        }
+
         public abstract Task Play();
         public abstract Task Stop();
         public abstract Task SeekTo(TimeSpan position);
@@ -210,7 +217,11 @@ namespace MediaManager
         internal void OnMediaItemChanged(object sender, MediaItemEventArgs e) => MediaItemChanged?.Invoke(sender, e);
         internal void OnMediaItemFailed(object sender, MediaItemFailedEventArgs e) => MediaItemFailed?.Invoke(sender, e);
         internal void OnMediaItemFinished(object sender, MediaItemEventArgs e) => MediaItemFinished?.Invoke(sender, e);
-        internal void OnPositionChanged(object sender, PositionChangedEventArgs e) => PositionChanged?.Invoke(sender, e);
+        internal void OnPositionChanged(object sender, PositionChangedEventArgs e)
+        {
+            Logger?.Log(sender, e);
+            PositionChanged?.Invoke(sender, e);
+        }
 
         internal void OnStateChanged(object sender, StateChangedEventArgs e)
         {

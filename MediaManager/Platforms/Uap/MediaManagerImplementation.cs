@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using MediaManager.Media;
 using MediaManager.Platforms.Uap;
 using MediaManager.Platforms.Uap.Media;
 using MediaManager.Platforms.Uap.Notifications;
-using MediaManager.Platforms.Uap.Player;
 using MediaManager.Platforms.Uap.Volume;
 using MediaManager.Playback;
 using MediaManager.Queue;
 using MediaManager.Volume;
-using Windows.Media.Core;
 using Windows.Media.Playback;
-using Windows.Storage;
 
 namespace MediaManager
 {
@@ -192,6 +188,11 @@ namespace MediaManager
         public override Task<IEnumerable<IMediaItem>> Play(DirectoryInfo directoryInfo)
         {
             throw new NotImplementedException();
+        }
+
+        public override void EnableLogging()
+        {
+            Logger = new UwpLogger();
         }
     }
 }

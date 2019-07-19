@@ -10,5 +10,10 @@ namespace MediaManager.Playback
         }
 
         public TimeSpan Position { get; }
+
+        public override string ToString()
+        {
+            return Position.ToString();
+        }
     }
 }
