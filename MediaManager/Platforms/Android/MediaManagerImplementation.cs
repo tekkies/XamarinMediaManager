@@ -276,7 +276,12 @@ namespace MediaManager
             if (!MediaQueue.Contains(mediaItem))
                 return false;
 
-            MediaController.GetTransportControls().SkipToQueueItem(MediaQueue.IndexOf(mediaItem));
+            if (this.IsStopped())
+                MediaController.GetTransportControls().Prepare();
+
+            MediaController.GetTransportControls().Play();
+
+            //MediaController.GetTransportControls().SkipToQueueItem(MediaQueue.IndexOf(mediaItem));
             return true;
         }
 
