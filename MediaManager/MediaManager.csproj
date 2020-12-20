@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.22">
   <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;MonoAndroid90;tizen40;uap10.0.16299;net472</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;MonoAndroid90;tizen40</TargetFrameworks>
@@ -17,6 +17,7 @@
     <PackageId>Plugin.MediaManager</PackageId>
     <Description>Cross platform Xamarin plugin to play and control Audio and Video</Description>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+    <PackageReleaseNotes>https://github.com/martijn00/XamarinMediaManager</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(TargetFramework.StartsWith('uap'))">
