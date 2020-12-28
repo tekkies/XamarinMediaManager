@@ -100,4 +100,8 @@
     <Compile Include="Platforms\Xamarin\**\*.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Build.Download" Version="0.10.0" />
+  </ItemGroup>
+
 </Project>
